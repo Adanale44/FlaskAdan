@@ -18,9 +18,9 @@ def register():
         error = None
 
         if not username:
-            error = 'Username is required.'
+            error = 'Se requiere usuario.'
         elif not password:
-            error = 'Password is required.'
+            error = 'Se requiere contraseña.'
 
         if error is None:
             try:
@@ -30,7 +30,7 @@ def register():
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                error = f"El usuario {username} ya esta registrado."
             else:
                 return redirect(url_for("auth.login"))
 
@@ -49,9 +49,9 @@ def login():
         ).fetchone()
 
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Usuario incorrecto.'
         elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+            error = 'Contraseña incorrecta.'
 
         if error is None:
             session.clear()
@@ -72,6 +72,11 @@ def load_logged_in_user():
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
         
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
