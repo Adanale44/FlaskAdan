@@ -8,8 +8,9 @@
       <li><span>{{ g.user['username']}}</span>
       <li><span>{{ g.user['email']}}</span>
       <li><a href="{{ url_for('auth.logout') }}">Cerrar sesion</a>
+      <li><a href="{{ url_for('auth.newemail') }}">Cambiar email</a>
     {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Registar</a>
+      <li><a href="{{ url_for('auth.register') }}">Registrar</a>
       <li><a href="{{ url_for('auth.login') }}">Iniciar sesion</a>
     {% endif %}
   </ul>

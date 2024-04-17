@@ -31,7 +31,7 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password, passwordCheck) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO user (username, password, passwordCheck, email) VALUES (?, ?, ?, ?)",
                     (username, generate_password_hash(password), passwordCheck, email),
                 )
                 db.commit()
@@ -92,3 +92,39 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+@bp.route('/newemail', methods=('GET', 'POST'))
+def newemail():
+    if request.method == 'POST':
+        email = request.form['newemail']
+        error = None
+        db = get_db()
+       
+        if not email:
+            error = 'nose luego.'
+
+        if error is not None:     
+            db.execute(
+            'UPDATE user SET email = ? WHERE id = ?',
+            (email,g.user[id],)
+            )
+        db.commit()
+        return redirect(url_for('index'))
+
+    return render_template('auth/newemail.html')
+
+@bp.route('/newemail', methods=('GET', 'POST'))
+def delUsuario():
+    if request.method == 'POST':
+        error = None
+        db = get_db()
+       
+    if error is not None:     
+        db.execute(
+            'DELETE FROM user  WHERE id = ?',
+            (g.user[id],)
+            )
+        db.commit()
+        return redirect(url_for('index'))
+
+    return render_template('auth/newemail.html')

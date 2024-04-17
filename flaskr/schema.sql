@@ -6,7 +6,7 @@ CREATE TABLE user (
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
-  passwordCheck TEXT NOT NULL
+  passwordCheck TEXT NOT NULL,
 
 );
 
